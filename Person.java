@@ -1,66 +1,57 @@
-import java.util.Objects;
-public class Person extends Passenger {
+public abstract class Person extends Passenger {
     private int numOffspring;
 
     public Person() {
         super();
-        numOffspring = 0;
+        this.numOffspring = 0;
     }
 
-    public Person(int numOff) {
+    public Person(int numOffspring) {
         super();
-        this.numOffspring = numOff;
+        setNumOffspring(numOffspring);
     }
 
-    public Person(String name, int birthYear, double weight, double height, char gender, int numCarryOn, int numOff) {
+    public Person(String name, int birthYear, double weight, double height, char gender, int numCarryOn, int numOffspring) {
         super(name, birthYear, weight, height, gender, numCarryOn);
-
-        if (numOff <= 0)
-            numOffspring = 0;
-        else
-            numOffspring = numOff;
+        setNumOffspring(numOffspring);
     }
 
-    public void setNumOffspring(int numOff) {
-        if (numOff <= 0)
-            numOffspring = 0;
-        else
-            numOffspring = numOff;
+    public void setNumOffspring(int numOffspring) {
+        if (numOffspring >= 0) {
+            this.numOffspring = numOffspring;
+        } else {
+            this.numOffspring = 0;
+        }
     }
 
     public int getNumOffspring() {
-        return numOffspring;
+        return this.numOffspring;
     }
 
+    @Override
     public void printDetails() {
         super.printDetails();
-        System.out.printf("Person: Number of Offspring: %4d\n", getNumOffspring());
+        System.out.printf("Person: Number of Offspring: %4d\n", this.getNumOffspring());
     }
 
     @Override
     public String toString() {
-        String str = super.toString();
-        str += String.format("\nPerson: Number of Offspring: %4d\n", numOffspring);
-        return str;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + Objects.hash(numOffspring);
-        return result;
+        String passengerDetails = super.toString();
+        String personDetails = String.format("Person: Number of Offspring: %4d\n", this.getNumOffspring());
+        return passengerDetails + personDetails;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (!(obj instanceof Person))
-            return false;
-        Person other = (Person) obj;
-        return numOffspring == other.numOffspring;
+        if (obj instanceof Person) {
+            Person person = (Person) obj;
+            return super.equals(person) && this.getNumOffspring() == person.getNumOffspring();
+        }
+        return false;
     }
+
+	public double metabolizeAccumulatedCalories() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
